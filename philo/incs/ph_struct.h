@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philosophers.h                                     :+:      :+:    :+:   */
+/*   ph_struct.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/03 19:26:53 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/03 20:00:57 by teppei           ###   ########.fr       */
+/*   Created: 2022/01/03 19:54:45 by teppei            #+#    #+#             */
+/*   Updated: 2022/01/03 19:58:02 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOSOPHERS_H
-# define PHILOSOPHERS_H
+#ifndef PH_STRUCT_H
+# define PH_STRUCT_H
 
-# include <pthread.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <stdbool.h>
-# include "ph_struct.h"
+# include "philosophers.h"
 
-# define USAGE	"usage: ./philo number_of_philosophers time_to_die \n\
-\ttime_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]"
-# define E_ARGS	"error: invalid command_line_argments"
+typedef struct s_god
+{
+	int	num_of_philos;
+	int	time_to_die;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	num_of_must_eat;
+}	t_god;
+
 
 #endif

@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2022/01/03 19:22:27 by teppei           ###   ########.fr        #
+#    Updated: 2022/01/03 19:46:02 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME		=	philo
 CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror -g
 SRCDIR		=	src
-SRCS		:=	# your src files both mandatory and bonus
+SRCS		:=	philosophers.c \
+				
 MSRCDIR		=	msrc
 SRCS_MAND	:=	# your src files only for mandatory
 OBJDIR		=	obj
@@ -23,10 +24,7 @@ MOBJDIR		=	mobj
 MOBJS		=	$(SRCS_MAND:%.c=$(MOBJDIR)/%.o)
 HEAD		=	./incs
 INCS		=	-I./incs
-LINK		=	-L./libft -L./gnl
-LIBS		=	-lft -lgnl
-L_FT		=	libft/libft.a
-L_GNL		=	gnl/libgnl.a
+LIBS		=	-lpthread
 
 BSRCDIR		=	bsrc
 BSRCS		:=	# your src files only for bonus
@@ -39,7 +37,10 @@ all: $(OBJDIR) $(MOBJDIR) $(NAME)
 $(OBJDIR):
 	mkdir $(OBJDIR)
 
-$(NAME): $(OBJS) $(MOBJS) $(L_FT) $(L_GNL)
+$(MOBJDIR):
+	mkdir $(MOBJDIR)
+
+$(NAME): $(OBJS) $(MOBJS)
 	$(CC) -o $@ $^ $(LINK) $(LIBS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
@@ -59,8 +60,6 @@ clean:
 	rm -rf *.dSYM
 fclean: clean
 	rm -f $(NAME)
-	make fclean -C libft
-	make fclean -C gnl
 
 re: fclean all
 cl: all clean
@@ -73,7 +72,7 @@ run: all
 # if you challenge bonus
 bonus: $(BOBJDIR) $(BONUS_NAME)
 
-$(BOBJDIR)
+$(BOBJDIR):
 	mkdir $(BSRCDIR)
 
 $(BONUS_NAME): $(BOBJS) $(OBJS)
