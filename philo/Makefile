@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2022/01/03 19:46:02 by teppei           ###   ########.fr        #
+#    Updated: 2022/01/05 01:54:37 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,8 @@ CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror -g
 SRCDIR		=	src
 SRCS		:=	philosophers.c \
+				ph_error.c \
+				ph_check_args.c \
 				
 MSRCDIR		=	msrc
 SRCS_MAND	:=	# your src files only for mandatory
