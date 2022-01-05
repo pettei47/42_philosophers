@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 01:48:25 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/05 01:48:46 by teppei           ###   ########.fr       */
+/*   Updated: 2022/01/05 21:31:47 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ void	ft_putendl_fd(char *s, int fd)
 int	ph_error(int ret, char *err)
 {
 	ft_putendl_fd(err, 2);
+	system("leaks philo");
 	return (ret);
 }
