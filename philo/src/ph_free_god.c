@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ph_error.c                                         :+:      :+:    :+:   */
+/*   ph_free_god.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/05 01:48:25 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/08 00:42:12 by teppei           ###   ########.fr       */
+/*   Created: 2022/01/08 00:38:15 by teppei            #+#    #+#             */
+/*   Updated: 2022/01/08 00:44:43 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ft_putendl_fd(char *s, int fd)
+void	ph_free_god(t_god *god, long n)
 {
 	long	i;
 
-	if (!s)
-		return ;
 	i = -1;
-	while (s[++i])
-		write(fd, &s[i], 1);
-	write(fd, "\n", 1);
-}
-
-int	ph_error(int ret, char *err, t_god *god, long n)
-{
-	if (god)
-		ph_free_god(god, n);
-	if (err)
-		ft_putendl_fd(err, 2);
-	system("leaks philo");
-	return (ret);
+	while (++i < n)
+		pthread_mutex_destroy(&god->forks[i]);
+	if (god->forks)
+		free(god->forks);
+	if (god->ph)
+		free(god->ph);
 }

@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2022/01/05 01:54:37 by teppei           ###   ########.fr        #
+#    Updated: 2022/01/08 00:45:56 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCDIR		=	src
 SRCS		:=	philosophers.c \
 				ph_error.c \
 				ph_check_args.c \
+				ph_free_god.c \
 				
 MSRCDIR		=	msrc
 SRCS_MAND	:=	# your src files only for mandatory
