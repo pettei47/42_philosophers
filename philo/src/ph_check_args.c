@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 01:49:25 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/16 13:28:22 by teppei           ###   ########.fr       */
+/*   Updated: 2022/01/16 13:35:42 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ unsigned long	ph_atol(char *s)
 	{
 		nbr = nbr * 10 + (s[i++] - '0');
 		if (nbr != nbr * 10 / 10)
-			return (__LONG_MAX__);
+			return (0);
 	}
 	return (nbr);
 }
