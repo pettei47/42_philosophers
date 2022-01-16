@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 19:26:53 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/10 13:35:23 by teppei           ###   ########.fr       */
+/*   Updated: 2022/01/16 13:45:12 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,8 @@
 int		ph_error(int ret, char *err, t_god *god, long n);
 bool	ph_check_args(char **av, t_god *god);
 void	ph_free_god(t_god *god, long n);
+bool	ph_init_philos(t_god *god);
+bool	ph_init_mutex(t_god *god);
+long	ph_get_time(unsigned long t);
 
 #endif

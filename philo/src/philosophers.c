@@ -6,61 +6,11 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 19:24:46 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/16 13:20:18 by teppei           ###   ########.fr       */
+/*   Updated: 2022/01/16 13:46:04 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-bool	ph_init_philos(t_god *god)
-{
-	long	i;
-
-	god->ph = (t_philo *)malloc(sizeof(t_philo) * god->num_of_philos);
-	if (!god->ph)
-		return (false);
-	i = -1;
-	while (++i < (long)god->num_of_philos)
-	{
-		god->ph[i].num = i + 1;
-		god->ph[i].l_fork = i;
-		if (i + 1 == (long)god->num_of_philos)
-			god->ph[i].r_fork = 0;
-		else
-			god->ph[i].r_fork = i + 1;
-		god->ph[i].time_have_eaten = 0;
-		god->ph[i].eat_count = 0;
-		god->ph[i].g = god;
-	}
-	return (true);
-}
-
-bool	ph_init_mutex(t_god *god)
-{
-	long	i;
-
-	i = -1;
-	god->forks = (pthread_mutex_t *)malloc(\
-				sizeof(pthread_mutex_t) * god->num_of_philos);
-	if (!god->forks)
-		return (false);
-	while (++i < (long)god->num_of_philos)
-	{
-		if (pthread_mutex_init(&god->forks[i], NULL) != 0)
-			return (ph_error(0, NULL, god, i));
-	}
-	if (pthread_mutex_init(&god->end_mtx, NULL) != 0)
-		return (ph_error(0, NULL, god, god->num_of_philos));
-	return (true);
-}
-
-long	ph_get_time(unsigned long t)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000 + time.tv_usec / 1000) - t);
-}
 
 void	ph_dead_cheack(t_god *g, t_philo *p)
 {
@@ -85,17 +35,15 @@ void	*ph_monitor(void *god)
 	t_god	*g;
 
 	g = (t_god *)god;
-	fprintf(stderr, "start: monitor\n");
 	while (1)
 	{
 		usleep(5);
-		pthread_mutex_lock(&g->end_mtx);
 		if (g->end)
 			break ;
+		pthread_mutex_lock(&g->end_mtx);
 		ph_dead_cheack(g, g->ph);
 		pthread_mutex_unlock(&g->end_mtx);
 	}
-	fprintf(stderr, "done: monitor\n");
 	return (NULL);
 }
 
@@ -110,9 +58,9 @@ void	*ph_round_table(void *philo)
 	// {
 	// 	if ()
 	// }
-	p->time_have_eaten = 1000;
+	p->time_have_eaten = ph_get_time(0);
 	usleep(50);
-	if (p->num == p->g->num_of_philos)
+	if (!p->g->end && p->num == p->g->num_of_philos)
 	{
 		pthread_mutex_lock(&p->g->end_mtx);
 		printf("%ld %lu died\n", ph_get_time(0), p->num);

@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2022/01/16 13:26:13 by teppei           ###   ########.fr        #
+#    Updated: 2022/01/16 13:45:26 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,10 @@ SRCS		:=	philosophers.c \
 				ph_error.c \
 				ph_check_args.c \
 				ph_free_god.c \
-				
+				ph_init_philo.c \
+				ph_init_mutex.c \
+				ph_get_time.c \
+
 OBJDIR		=	obj
 OBJS		=	$(SRCS:%.c=$(OBJDIR)/%.o)
 HEAD		=	./incs
