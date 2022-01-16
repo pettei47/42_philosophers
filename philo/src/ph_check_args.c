@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 01:49:25 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/05 01:49:49 by teppei           ###   ########.fr       */
+/*   Updated: 2022/01/16 13:35:42 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ unsigned long	ph_atol(char *s)
 	{
 		nbr = nbr * 10 + (s[i++] - '0');
 		if (nbr != nbr * 10 / 10)
-			return (__LONG_MAX__);
+			return (0);
 	}
 	return (nbr);
 }
@@ -53,8 +53,8 @@ bool	ph_check_args(char **av, t_god *god)
 	god->time_to_eat = ph_atol(av[i++]);
 	god->time_to_sleep = ph_atol(av[i++]);
 	god->num_of_must_eat = ph_atol(av[i]);
-	if (!god->num_of_philos || !god->time_to_die || !god->time_to_eat ||
-		!god->time_to_sleep || (!god->num_of_must_eat && av[i]))
+	if (god->num_of_philos * god->time_to_die * god->time_to_eat
+		* god->time_to_sleep == 0 || (!god->num_of_must_eat && av[i]))
 		return (false);
 	return (true);
 }
