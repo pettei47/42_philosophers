@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 16:27:41 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/16 16:28:02 by teppei           ###   ########.fr       */
+/*   Updated: 2022/01/28 20:23:35 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ph_thread_control(t_god *g)
 
 	i = -1;
 	g->end = false;
+	g->start_time = ph_get_time(0);
 	while (++i < (long)g->num_of_philos)
 	{
 		if (pthread_create(&g->ph[i].th, NULL, &ph_round_table, &g->ph[i]) != 0)

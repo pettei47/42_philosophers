@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 13:41:37 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/16 13:41:56 by teppei           ###   ########.fr       */
+/*   Updated: 2022/01/28 21:36:59 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ bool	ph_init_philos(t_god *god)
 	god->ph = (t_philo *)malloc(sizeof(t_philo) * god->num_of_philos);
 	if (!god->ph)
 		return (false);
+	god->start_time = ph_get_time(0);
 	i = -1;
 	while (++i < (long)god->num_of_philos)
 	{
@@ -28,7 +29,7 @@ bool	ph_init_philos(t_god *god)
 			god->ph[i].r_fork = 0;
 		else
 			god->ph[i].r_fork = i + 1;
-		god->ph[i].time_have_eaten = 0;
+		god->ph[i].time_have_eaten = god->start_time;
 		god->ph[i].eat_count = 0;
 		god->ph[i].g = god;
 	}

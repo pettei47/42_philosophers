@@ -6,13 +6,13 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 16:28:40 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/16 16:28:53 by teppei           ###   ########.fr       */
+/*   Updated: 2022/01/28 21:40:21 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ph_dead_cheack(t_god *g, t_philo *p)
+bool	ph_dead_cheack(t_god *g, t_philo *p)
 {
 	long	i;
 
@@ -20,14 +20,14 @@ void	ph_dead_cheack(t_god *g, t_philo *p)
 	while (++i < (long)g->num_of_philos)
 	{
 		if (g->end)
-			return ;
+			return (true);
 		if (ph_get_time(p[i].time_have_eaten) > (long)g->time_to_die)
 		{
-			printf("%ld %lu died(monitor)\n", ph_get_time(0), p[i].num);
-			g->end = true;
-			return ;
+			printf("%ld %lu died\n", ph_get_time(g->start_time), p[i].num);
+			return (true);
 		}
 	}
+	return (false);
 }
 
 void	*ph_monitor(void *god)
@@ -37,15 +37,13 @@ void	*ph_monitor(void *god)
 	g = (t_god *)god;
 	while (1)
 	{
-		usleep(5);
-		fprintf(stderr, "monitor: end: %s\n", g->end ? "true" : "false");
+		usleep(100);
 		pthread_mutex_lock(&g->end_mtx);
-		if (g->end)
+		if (ph_dead_cheack(g, g->ph))
 			break ;
-		ph_dead_cheack(g, g->ph);
 		pthread_mutex_unlock(&g->end_mtx);
-		fprintf(stderr, "monitor 2: end_mtx: %p\n", &g->end_mtx);
 	}
+	g->end = true;
 	pthread_mutex_unlock(&g->end_mtx);
 	return (NULL);
 }

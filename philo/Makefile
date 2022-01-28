@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2022/01/16 16:29:51 by teppei           ###   ########.fr        #
+#    Updated: 2022/01/28 21:21:58 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS		:=	philosophers.c \
 				ph_thread_control.c \
 				ph_round_table.c \
 				ph_monitor.c \
+				ph_unlock.c \
 
 OBJDIR		=	obj
 OBJS		=	$(SRCS:%.c=$(OBJDIR)/%.o)
