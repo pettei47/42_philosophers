@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 16:28:40 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/28 21:27:15 by teppei           ###   ########.fr       */
+/*   Updated: 2022/01/28 21:40:21 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 
 bool	ph_dead_cheack(t_god *g, t_philo *p)
 {
-	long			i;
-	unsigned long	now;
+	long	i;
 
 	i = -1;
-	now = ph_get_time(0);
 	while (++i < (long)g->num_of_philos)
 	{
 		if (g->end)
 			return (true);
-		if (now - p[i].time_have_eaten > g->time_to_die)
+		if (ph_get_time(p[i].time_have_eaten) > (long)g->time_to_die)
 		{
 			printf("%ld %lu died\n", ph_get_time(g->start_time), p[i].num);
 			return (true);
