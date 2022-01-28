@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 19:54:45 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/10 12:32:09 by teppei           ###   ########.fr       */
+/*   Updated: 2022/01/19 23:28:32 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 # define PH_STRUCT_H
 
 # include "philosophers.h"
+
+enum	e_action
+{
+	FORK,
+	EAT,
+	SLEEP,
+	THINK,
+};
 
 typedef struct s_god	t_god;
 typedef struct s_philo
@@ -34,6 +42,7 @@ typedef struct s_god
 	unsigned long	time_to_eat;
 	unsigned long	time_to_sleep;
 	unsigned long	num_of_must_eat;
+	unsigned long	start_time;
 	pthread_mutex_t	*forks;
 	unsigned long	num_of_have_eaten;
 	bool			end;

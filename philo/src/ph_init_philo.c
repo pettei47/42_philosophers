@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 13:41:37 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/16 13:41:56 by teppei           ###   ########.fr       */
+/*   Updated: 2022/01/19 23:29:44 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	ph_init_philos(t_god *god)
 			god->ph[i].r_fork = 0;
 		else
 			god->ph[i].r_fork = i + 1;
-		god->ph[i].time_have_eaten = 0;
+		god->ph[i].time_have_eaten = god->start_time;
 		god->ph[i].eat_count = 0;
 		god->ph[i].g = god;
 	}
