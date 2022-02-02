@@ -6,13 +6,13 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 16:25:17 by teppei            #+#    #+#             */
-/*   Updated: 2022/02/03 00:18:47 by teppei           ###   ########.fr       */
+/*   Updated: 2022/02/03 00:23:27 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-bool	ph_print_action(t_philo *p, t_god *g, int act)
+bool	ph_print_action(t_philo *p, t_god *g, int act, long i)
 {
 	if (act == FORK && !g->end)
 		printf("%ld %lu"FORK_MSG, ph_get_time(g->start_time), p->num);
@@ -23,16 +23,13 @@ bool	ph_print_action(t_philo *p, t_god *g, int act)
 	else if (!g->end)
 	{
 		printf("%ld %lu"EAT_MSG, ph_get_time(g->start_time), p->num);
-		long i = -1;
 		while (++i < (long)g->time_to_eat && !g->end)
 			usleep(1000);
 		p->time_have_eaten = ph_get_time(0);
 		p->eat_count++;
 		pthread_mutex_lock(&g->end_mtx);
-		fprintf(stderr, "p[%lu] eat_count:%lu (%lu)\n", p->num, p->eat_count, g->num_of_must_eat);
 		if (p->eat_count == g->num_of_must_eat)
 			g->num_of_have_eaten++;
-		fprintf(stderr, "num_of_have_eaten:%lu\n", g->num_of_have_eaten);
 		if (g->num_of_have_eaten == g->num_of_philos)
 			g->end = true;
 		pthread_mutex_unlock(&g->end_mtx);
@@ -51,7 +48,7 @@ bool	ph_eat(t_philo *p, t_god *g, pthread_mutex_t *f, unsigned long *forks)
 		g->end = true;
 		return (ph_unlock(&g->end_mtx, &f[p->l_fork], false));
 	}
-	if (!ph_print_action(p, g, FORK))
+	if (!ph_print_action(p, g, FORK, -1))
 		return (ph_unlock(&f[p->l_fork], NULL, false));
 	pthread_mutex_lock(&f[forks[1]]);
 	if (ph_get_time(p->time_have_eaten) > (long)g->time_to_die)
@@ -63,7 +60,7 @@ bool	ph_eat(t_philo *p, t_god *g, pthread_mutex_t *f, unsigned long *forks)
 		g->end = true;
 		return (ph_unlock(&g->end_mtx, NULL, false));
 	}
-	if (!ph_print_action(p, g, FORK) || !ph_print_action(p, g, EAT))
+	if (!ph_print_action(p, g, FORK, -1) || !ph_print_action(p, g, EAT, -1))
 		return (ph_unlock(&f[p->l_fork], &f[p->r_fork], false));
 	return (ph_unlock(&f[p->l_fork], &f[p->r_fork], g->end == false));
 }
@@ -72,7 +69,7 @@ bool	ph_sleep(t_philo *p, t_god *g, long i)
 {
 	if (g->end)
 		return (false);
-	if (!ph_print_action(p, g, SLEEP))
+	if (!ph_print_action(p, g, SLEEP, -1))
 		return (false);
 	while (++i < (long)g->time_to_sleep && !g->end)
 		usleep(1000);
@@ -99,7 +96,7 @@ bool	ph_think(t_philo *p, t_god *g)
 		(g->time_to_die - g->time_to_eat - g->time_to_sleep - buffer_time);
 	if (thiking_time < 100)
 		thiking_time = 100;
-	if (!ph_print_action(p, g, THINK))
+	if (!ph_print_action(p, g, THINK, -1))
 		return (false);
 	while (thiking_time-- && !g->end)
 		usleep(1000);
