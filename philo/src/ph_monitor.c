@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 16:28:40 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/28 21:40:21 by teppei           ###   ########.fr       */
+/*   Updated: 2022/02/02 19:24:04 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,10 @@ void	*ph_monitor(void *god)
 	while (1)
 	{
 		usleep(100);
-		pthread_mutex_lock(&g->end_mtx);
 		if (ph_dead_cheack(g, g->ph))
 			break ;
-		pthread_mutex_unlock(&g->end_mtx);
 	}
+	pthread_mutex_lock(&g->end_mtx);
 	g->end = true;
 	pthread_mutex_unlock(&g->end_mtx);
 	return (NULL);

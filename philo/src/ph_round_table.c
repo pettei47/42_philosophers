@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 16:25:17 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/28 21:26:14 by teppei           ###   ########.fr       */
+/*   Updated: 2022/02/03 00:18:47 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,30 @@
 
 bool	ph_print_action(t_philo *p, t_god *g, int act)
 {
-	pthread_mutex_lock(&g->end_mtx);
-	if (g->end)
-		return (ph_unlock(&g->end_mtx, NULL, false));
-	if (act == FORK)
+	if (act == FORK && !g->end)
 		printf("%ld %lu"FORK_MSG, ph_get_time(g->start_time), p->num);
-	else if (act == SLEEP)
+	else if (act == SLEEP && !g->end)
 		printf("%ld %lu"SLEEP_MSG, ph_get_time(g->start_time), p->num);
-	else if (act == THINK)
+	else if (act == THINK && !g->end)
 		printf("%ld %lu"THINK_MSG, ph_get_time(g->start_time), p->num);
-	else
+	else if (!g->end)
 	{
 		printf("%ld %lu"EAT_MSG, ph_get_time(g->start_time), p->num);
-		usleep(g->time_to_eat);
+		long i = -1;
+		while (++i < (long)g->time_to_eat && !g->end)
+			usleep(1000);
 		p->time_have_eaten = ph_get_time(0);
 		p->eat_count++;
+		pthread_mutex_lock(&g->end_mtx);
+		fprintf(stderr, "p[%lu] eat_count:%lu (%lu)\n", p->num, p->eat_count, g->num_of_must_eat);
 		if (p->eat_count == g->num_of_must_eat)
 			g->num_of_have_eaten++;
+		fprintf(stderr, "num_of_have_eaten:%lu\n", g->num_of_have_eaten);
 		if (g->num_of_have_eaten == g->num_of_philos)
 			g->end = true;
+		pthread_mutex_unlock(&g->end_mtx);
 	}
-	if (g->num_of_philos == 1 || g->end)
-		return (ph_unlock(&g->end_mtx, NULL, false));
-	return (ph_unlock(&g->end_mtx, NULL, true));
+	return (g->end == false && g->num_of_philos != 1);
 }
 
 bool	ph_eat(t_philo *p, t_god *g, pthread_mutex_t *f, unsigned long *forks)
@@ -67,13 +68,14 @@ bool	ph_eat(t_philo *p, t_god *g, pthread_mutex_t *f, unsigned long *forks)
 	return (ph_unlock(&f[p->l_fork], &f[p->r_fork], g->end == false));
 }
 
-bool	ph_sleep(t_philo *p, t_god *g)
+bool	ph_sleep(t_philo *p, t_god *g, long i)
 {
 	if (g->end)
 		return (false);
 	if (!ph_print_action(p, g, SLEEP))
 		return (false);
-	usleep(g->time_to_sleep);
+	while (++i < (long)g->time_to_sleep && !g->end)
+		usleep(1000);
 	pthread_mutex_lock(&g->end_mtx);
 	if (ph_get_time(p->time_have_eaten) > (long)g->time_to_die)
 	{
@@ -99,7 +101,8 @@ bool	ph_think(t_philo *p, t_god *g)
 		thiking_time = 100;
 	if (!ph_print_action(p, g, THINK))
 		return (false);
-	usleep(thiking_time);
+	while (thiking_time-- && !g->end)
+		usleep(1000);
 	pthread_mutex_lock(&g->end_mtx);
 	if (ph_get_time(p->time_have_eaten) > (long)g->time_to_die)
 	{
@@ -129,9 +132,12 @@ void	*ph_round_table(void *philo)
 	}
 	while (!g->end)
 	{
-		ph_eat(p, g, g->forks, forks);
-		ph_sleep(p, g);
-		ph_think(p, g);
+		if (g->end || !ph_eat(p, g, g->forks, forks))
+			break ;
+		if (g->end || !ph_sleep(p, g, -1))
+			break ;
+		if (g->end || !ph_think(p, g))
+			break ;
 	}
 	return (NULL);
 }
