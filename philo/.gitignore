@@ -5,3 +5,5 @@
 !*.h
 !Makefile
 !.gitignore
+test_*.c
+tmp_*.c
