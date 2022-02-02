@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 01:49:25 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/16 13:35:42 by teppei           ###   ########.fr       */
+/*   Updated: 2022/02/03 00:31:50 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ bool	ph_check_args(char **av, t_god *god)
 	if (god->num_of_philos * god->time_to_die * god->time_to_eat
 		* god->time_to_sleep == 0 || (!god->num_of_must_eat && av[i]))
 		return (false);
+	god->num_of_have_eaten = 0;
 	return (true);
 }
