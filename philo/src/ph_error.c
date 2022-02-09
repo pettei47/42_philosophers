@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 01:48:25 by teppei            #+#    #+#             */
-/*   Updated: 2022/02/07 22:03:05 by teppei           ###   ########.fr       */
+/*   Updated: 2022/02/09 22:38:38 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,5 @@ int	ph_error(int ret, char *err, t_god *god, long n)
 		ph_free_god(god, n);
 	if (err)
 		ft_putendl_fd(err, 2);
-	//後で消す
-	system("leaks philo");
 	return (ret);
 }
