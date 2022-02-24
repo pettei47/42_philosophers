@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 16:25:17 by teppei            #+#    #+#             */
-/*   Updated: 2022/02/09 22:37:17 by teppei           ###   ########.fr       */
+/*   Updated: 2022/02/24 22:31:18 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ bool	ph_print_action(t_philo *p, t_god *g, int act, long i)
 	else if (!g->end)
 	{
 		printf("%ld %lu"EAT_MSG, ph_get_time(g->start_time), p->num);
+		p->time_have_eaten = ph_get_time(0);
+		pthread_mutex_unlock(&g->end_mtx);
 		while (++i < (long)g->time_to_eat && !g->end)
 			usleep(1000);
 		p->time_have_eaten = ph_get_time(0);
+		pthread_mutex_lock(&g->end_mtx);
 		p->eat_count++;
 		if (p->eat_count == g->num_of_must_eat)
 			g->num_of_have_eaten++;
@@ -91,11 +94,11 @@ bool	ph_think(t_philo *p, t_god *g)
 
 	if (g->end)
 		return (false);
-	buffer_time = p->num * 200;
-	thiking_time = 0.9 * \
+	buffer_time = g->num_of_philos * 10;
+	thiking_time = 0.1 * \
 		(g->time_to_die - g->time_to_eat - g->time_to_sleep - buffer_time);
-	if (thiking_time < 100)
-		thiking_time = 100;
+	if (thiking_time < 10)
+		thiking_time = 10;
 	if (!ph_print_action(p, g, THINK, -1))
 		return (false);
 	while (thiking_time-- && !g->end)
@@ -119,14 +122,15 @@ void	*ph_round_table(void *philo)
 
 	p = philo;
 	g = p->g;
-	p->time_have_eaten = g->start_time;
 	forks[0] = p->l_fork;
 	forks[1] = p->r_fork;
 	if (p->num % 2 == 0)
 	{
 		forks[0] = p->r_fork;
 		forks[1] = p->l_fork;
+		usleep(200);
 	}
+	p->time_have_eaten = ph_get_time(0);
 	while (!g->end)
 	{
 		if (g->end || !ph_eat(p, g, g->forks, forks))
