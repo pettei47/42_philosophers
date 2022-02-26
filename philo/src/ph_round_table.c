@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 16:25:17 by teppei            #+#    #+#             */
-/*   Updated: 2022/02/24 22:31:18 by teppei           ###   ########.fr       */
+/*   Updated: 2022/02/26 22:36:31 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ bool	ph_think(t_philo *p, t_god *g)
 	buffer_time = g->num_of_philos * 10;
 	thiking_time = 0.1 * \
 		(g->time_to_die - g->time_to_eat - g->time_to_sleep - buffer_time);
-	if (thiking_time < 10)
+	if (thiking_time < 10 || thiking_time > (long)g->time_to_die)
 		thiking_time = 10;
 	if (!ph_print_action(p, g, THINK, -1))
 		return (false);
