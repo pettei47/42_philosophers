@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 16:25:17 by teppei            #+#    #+#             */
-/*   Updated: 2022/02/26 22:36:31 by teppei           ###   ########.fr       */
+/*   Updated: 2022/02/26 23:04:45 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,11 +133,8 @@ void	*ph_round_table(void *philo)
 	p->time_have_eaten = ph_get_time(0);
 	while (!g->end)
 	{
-		if (g->end || !ph_eat(p, g, g->forks, forks))
-			break ;
-		if (g->end || !ph_sleep(p, g, -1))
-			break ;
-		if (g->end || !ph_think(p, g))
+		if (g->end || !ph_eat(p, g, g->forks, forks) || \
+			!ph_sleep(p, g, -1) || !ph_think(p, g))
 			break ;
 	}
 	return (NULL);
