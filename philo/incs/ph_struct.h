@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 19:54:45 by teppei            #+#    #+#             */
-/*   Updated: 2022/02/27 15:39:42 by teppei           ###   ########.fr       */
+/*   Updated: 2022/02/27 15:57:26 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,33 +51,5 @@ typedef struct s_god
 	pthread_t		monitor;
 	t_philo			*ph;
 }	t_god;
-
-// typedef struct s_data	t_data;
-// typedef struct s_philo
-// {
-// 	int				eat_count;
-// 	int				num;
-// 	int				l_fork;
-// 	int				r_fork;
-// 	size_t			last_eat_time;
-// 	pthread_t		thread;
-// 	t_data			*d;
-// }	t_philo;
-
-// typedef struct s_data
-// {
-// 	int				philo_num;
-// 	size_t			die_time;
-// 	size_t			eat_time;
-// 	size_t			sleep_time;
-// 	int				max_eat_num;
-// 	int				fork_num;
-// 	int				end_flag;
-// 	int				philos_eat_count;
-// 	pthread_mutex_t	*fork;
-// 	pthread_mutex_t	common_protect;
-// 	pthread_t		starvation_monitor;
-// 	t_philo			*philo;
-// }	t_data;
 
 #endif
