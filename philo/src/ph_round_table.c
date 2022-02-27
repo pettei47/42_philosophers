@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 16:25:17 by teppei            #+#    #+#             */
-/*   Updated: 2022/02/27 10:19:28 by teppei           ###   ########.fr       */
+/*   Updated: 2022/02/27 15:34:58 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ bool	ph_print_action(t_philo *p, t_god *g, int act, long i)
 		printf("%ld %lu"THINK_MSG, ph_get_time(g->start_time), p->num);
 	else if (!g->end)
 	{
+		p->time_have_eaten = ph_get_time(0);
 		printf("%ld %lu"EAT_MSG, ph_get_time(g->start_time), p->num);
 		pthread_mutex_unlock(&g->end_mtx);
 		while (++i < (long)g->time_to_eat && !g->end)
 		{
-			p->time_have_eaten = ph_get_time(0);
 			usleep(1000);
+			p->time_have_eaten = ph_get_time(0);
 		}
 		pthread_mutex_lock(&g->end_mtx);
 		if (++p->eat_count == g->num_of_must_eat)
@@ -76,15 +77,14 @@ bool	ph_sleep(t_philo *p, t_god *g, long i)
 		return (false);
 	while (++i < (long)g->time_to_sleep && !g->end)
 		usleep(1000);
-	pthread_mutex_lock(&g->end_mtx);
-	if (ph_get_time(p->time_have_eaten) > (long)g->time_to_die)
+	if (ph_get_time(p->time_have_eaten) > (long)g->time_to_die && !g->end)
 	{
-		if (!g->end)
-			printf("%ld %lu died\n", ph_get_time(g->start_time), p->num);
+		pthread_mutex_lock(&g->end_mtx);
+		printf("%ld %lu died\n", ph_get_time(g->start_time), p->num);
 		g->end = true;
 		return (ph_unlock(&g->end_mtx, NULL, false));
 	}
-	return (ph_unlock(&g->end_mtx, NULL, true));
+	return (!g->end);
 }
 
 bool	ph_think(t_philo *p, t_god *g)
@@ -103,15 +103,14 @@ bool	ph_think(t_philo *p, t_god *g)
 		return (false);
 	while (thiking_time-- && !g->end)
 		usleep(1000);
-	pthread_mutex_lock(&g->end_mtx);
-	if (ph_get_time(p->time_have_eaten) > (long)g->time_to_die)
+	if (ph_get_time(p->time_have_eaten) > (long)g->time_to_die && !g->end)
 	{
-		if (!g->end)
-			printf("%ld %lu died\n", ph_get_time(g->start_time), p->num);
+		pthread_mutex_lock(&g->end_mtx);
+		printf("%ld %lu died\n", ph_get_time(g->start_time), p->num);
 		g->end = true;
 		return (ph_unlock(&g->end_mtx, NULL, false));
 	}
-	return (ph_unlock(&g->end_mtx, NULL, true));
+	return (!g->end);
 }
 
 void	*ph_round_table(void *philo)
