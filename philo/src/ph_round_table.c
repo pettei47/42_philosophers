@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 16:25:17 by teppei            #+#    #+#             */
-/*   Updated: 2022/02/26 23:04:45 by teppei           ###   ########.fr       */
+/*   Updated: 2022/02/27 10:19:28 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ bool	ph_print_action(t_philo *p, t_god *g, int act, long i)
 	else if (!g->end)
 	{
 		printf("%ld %lu"EAT_MSG, ph_get_time(g->start_time), p->num);
-		p->time_have_eaten = ph_get_time(0);
 		pthread_mutex_unlock(&g->end_mtx);
 		while (++i < (long)g->time_to_eat && !g->end)
+		{
+			p->time_have_eaten = ph_get_time(0);
 			usleep(1000);
-		p->time_have_eaten = ph_get_time(0);
+		}
 		pthread_mutex_lock(&g->end_mtx);
-		p->eat_count++;
-		if (p->eat_count == g->num_of_must_eat)
+		if (++p->eat_count == g->num_of_must_eat)
 			g->num_of_have_eaten++;
 		if (g->num_of_have_eaten == g->num_of_philos)
 			g->end = true;
