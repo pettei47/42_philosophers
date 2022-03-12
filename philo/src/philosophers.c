@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 19:24:46 by teppei            #+#    #+#             */
-/*   Updated: 2022/01/28 21:27:30 by teppei           ###   ########.fr       */
+/*   Updated: 2022/03/13 08:28:32 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int ac, char **av)
 	if (!ph_init_philos(&god))
 		return (ph_error(1, E_INIT"philo", NULL, 0));
 	if (!ph_init_mutex(&god))
-		return (ph_error(1, E_INIT"mutex", NULL, 0));
+		return (ph_error(1, E_INIT"mutex", &god, 0));
 	if (ph_thread_control(&god) == 0)
 		ph_free_god(&god, god.num_of_philos);
 	return (0);
