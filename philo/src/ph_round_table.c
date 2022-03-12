@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 16:25:17 by teppei            #+#    #+#             */
-/*   Updated: 2022/02/27 15:34:58 by teppei           ###   ########.fr       */
+/*   Updated: 2022/03/12 17:18:51 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ bool	ph_print_action(t_philo *p, t_god *g, int act, long i)
 		while (++i < (long)g->time_to_eat && !g->end)
 		{
 			usleep(1000);
+			pthread_mutex_lock(&p->have_eaten_mtx);
 			p->time_have_eaten = ph_get_time(0);
+			pthread_mutex_unlock(&p->have_eaten_mtx);
 		}
 		pthread_mutex_lock(&g->end_mtx);
 		if (++p->eat_count == g->num_of_must_eat)
@@ -90,11 +92,11 @@ bool	ph_sleep(t_philo *p, t_god *g, long i)
 bool	ph_think(t_philo *p, t_god *g)
 {
 	long	thiking_time;
-	long	buffer_time;
+	long	buffer_time = 0;
 
 	if (g->end)
 		return (false);
-	buffer_time = g->num_of_philos * 10;
+	// buffer_time = g->num_of_philos * 10;
 	thiking_time = 0.1 * \
 		(g->time_to_die - g->time_to_eat - g->time_to_sleep - buffer_time);
 	if (thiking_time < 10 || thiking_time > (long)g->time_to_die)
