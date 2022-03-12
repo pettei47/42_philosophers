@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 19:54:45 by teppei            #+#    #+#             */
-/*   Updated: 2022/02/27 15:57:26 by teppei           ###   ########.fr       */
+/*   Updated: 2022/03/13 08:18:42 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_god
 	unsigned long	num_of_must_eat;
 	unsigned long	start_time;
 	pthread_mutex_t	*forks;
+	bool			*fork_state;
 	unsigned long	num_of_have_eaten;
 	bool			end;
 	pthread_mutex_t	end_mtx;
