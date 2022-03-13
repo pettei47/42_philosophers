@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 19:26:53 by teppei            #+#    #+#             */
-/*   Updated: 2022/03/13 09:47:14 by teppei           ###   ########.fr       */
+/*   Updated: 2022/03/13 18:02:48 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int		ph_thread_control(t_god *g);
 void	*ph_round_table(void *philo);
 void	*ph_monitor(void *god);
 bool	ph_die(t_philo *p, t_god *g);
+void	ph_time_count(t_god *g, long start, long time);
 bool	ph_unlock(pthread_mutex_t *mtx1, pthread_mutex_t *mtx2, bool ret);
 
 #endif
