@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/08 00:38:15 by teppei            #+#    #+#             */
-/*   Updated: 2022/03/13 08:37:13 by teppei           ###   ########.fr       */
+/*   Updated: 2022/03/13 18:17:01 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ void	ph_free_god(t_god *god, long n)
 		free(god->fork_state);
 	if (god->ph)
 		free(god->ph);
-	//system("leaks philo");
+	system("leaks philo");
 }
