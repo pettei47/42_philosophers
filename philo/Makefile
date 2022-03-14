@@ -6,13 +6,13 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2022/03/13 18:10:13 by teppei           ###   ########.fr        #
+#    Updated: 2022/03/14 11:52:01 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	philo
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g # -fsanitize=thread
+CFLAGS		=	-Wall -Wextra -Werror -g
 SRCDIR		=	src
 SRCS		:=	philosophers.c \
 				ph_error.c \
