@@ -6,7 +6,7 @@
 /*   By: teppei <teppei@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 19:54:45 by teppei            #+#    #+#             */
-/*   Updated: 2022/03/13 08:18:42 by teppei           ###   ########.fr       */
+/*   Updated: 2022/03/20 23:15:37 by teppei           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef struct s_philo
 	unsigned long	l_fork;
 	unsigned long	r_fork;
 	unsigned long	time_have_eaten;
-	pthread_mutex_t	have_eaten_mtx;
 	unsigned long	eat_count;
 	pthread_t		th;
 	t_god			*g;
